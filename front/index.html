@@ -1,72 +1,149 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+
+    <title>Ejemplo de CRUD usando API REST y vanilla Js</title>
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col s12">
-          <nav>
-            <div class="nav-wrapper">
-              <a href="#" class="brand-logo">APRENDIZ</a>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li>
-                  <button
-                    class="btn waves-effect waves-light"
-                    onclick="listarTodos()"
-                  >
-                    listar
-                  </button>
-                </li>
-                <li>
-                  <button class="btn waves-effect waves-light">editar</button>
-                </li>
-                <li>
-                  <button class="btn waves-effect waves-light">eliminar</button>
-                </li>
-              </ul>
-            </div>
-          </nav>
+        <div class="coL-12">
+          <h1 class="bg bg-dark text-center text-light">
+            CRUD CON API REST EJEMPLO
+          </h1>
         </div>
       </div>
       <div class="row">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
-            </tr>
-          </thead>
+        <div class="col">
+          <button class="btn btn-primary" id="btnNuevo">
+            <i class="bi bi-person-plus-fill"></i> Nuevo
+          </button>
+        </div>
+        <div class="col">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar por apellido"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <!-- aca iria el contendio renderizado por JS-->
 
-          <tbody>
-            <tr>
-              <td>Alvin</td>
-              <td>Eclair</td>
-              <td>$0.87</td>
-            </tr>
-            <tr>
-              <td>Alan</td>
-              <td>Jellybean</td>
-              <td>$3.76</td>
-            </tr>
-            <tr>
-              <td>Jonathan</td>
-              <td>Lollipop</td>
-              <td>$7.00</td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="table table-hover mt-2">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+
+            <tbody id="contenido"></tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./aprendiz.js"></script>
+    <!-- Modal de insercion de aprendiz -->
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="frmCrearAprendiz"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Fromulario de la creación de aprendiz
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control mt-4"
+                  placeholder="Nombre"
+                  aria-label="First name"
+                  id="nombre"
+                />
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control mt-4"
+                  placeholder="Apellido"
+                  aria-label="Last name"
+                  id="apellido"
+                />
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col">
+                <input
+                  type="email"
+                  class="form-control mt-4"
+                  placeholder="Correo"
+                  aria-label="First name"
+                  id="correo"
+                />
+              </div>
+              <div class="col">
+                <input
+                  type="password"
+                  class="form-control mt-4 mb-4"
+                  placeholder="Ingrese la contraseña a crear"
+                  aria-label="Last name"
+                  id="pass"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-primary">
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin de la modal de inserción del aprendiz -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="aprendiz.js"></script>
   </body>
 </html>

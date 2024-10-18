@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <title>Ejemplo de CRUD usando API REST y vanilla Js</title>
   </head>
   <body>
     <div class="container">
@@ -18,18 +18,18 @@
               <a href="#" class="brand-logo">APRENDIZ</a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li>
-                  <button
-                    class="btn waves-effect waves-light"
-                    onclick="listarTodos()"
+                  <a href="index.html"
+                    class="waves-effect waves-light btn"
+                    
                   >
-                    listar
-                  </button>
+                    Listar
+                </a>
                 </li>
                 <li>
-                  <button class="btn waves-effect waves-light">editar</button>
+                  <a href="insertar.html" class="waves-effect waves-light btn">Insertar</a>
                 </li>
                 <li>
-                  <button class="btn waves-effect waves-light">eliminar</button>
+                  <button class="waves-effect waves-light btn">Eliminar</button>
                 </li>
               </ul>
             </div>
@@ -37,54 +37,36 @@
         </div>
       </div>
       <div class="row">
-        <form class="col s12">
-          <div class="row">
-            <div class="input-field col s6">
-              <input
-                placeholder="Placeholder"
-                id="nombre"
-                type="text"
-                class="validate"
-              />
-              <label for="nombre">Nombre</label>
+        <div class="col s8">
+            <form action="" method="post" enctype="multipart/form-data" id="frmAprendiz">                
+            <div class="input-field col s8">
+                <input placeholder="Placeholder" id="nombre" type="text" class="validate">
+                <label for="nombre">Nombre</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input
-                placeholder="Placeholder"
-                id="apellido"
-                type="text"
-                class="validate"
-              />
-              <label for="apellido">Apellido</label>
+            <div class="input-field col s8">
+                <input placeholder="Placeholder" id="apellido" type="text" class="validate">
+                <label for="apellido">Apellido</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input
-                placeholder="Placeholder"
-                id="email"
-                type="text"
-                class="validate"
-              />
-              <label for="email">Email</label>
+            <div class="input-field col s8">
+                <input placeholder="Placeholder" id="email" type="email" class="validate">
+                <label for="email">Email</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input
-                placeholder="Placeholder"
-                id="password"
-                type="text"
-                class="validate"
-              />
-              <label for="password">Contraseña</label>
+            <div class="input-field col s8">
+                <input placeholder="Placeholder" id="password" type="password" class="validate">
+                <label for="password">Passsword</label>
             </div>
-          </div>
-        </form>
+            <div class="input-field col s8">
+                <button class="waves-effect waves-light btn" type="submit">Enviar</button>
+
+            </div>
+            </form>
+        </div>
+        <div class="col s4">    
+lateral
+        </div>
       </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="aprendiz.js"></script>
   </body>
