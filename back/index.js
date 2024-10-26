@@ -16,6 +16,6 @@ app.use(express.json()); // serializar los request y response
 
 app.use("/", require("./src/aprendiz.js"));
 
-aprendiz.listen(4100, () => {
+app.listen(4100, () => {
   console.log(`api rest encendida en el puerto 4100`);
 });

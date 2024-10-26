@@ -1,5 +1,3 @@
-// Instancia de express : sirve para crear api rest
-
 const express = require("express");
 const bd = require("./bd.js");
 const aprendiz = express();
@@ -38,7 +36,7 @@ aprendiz.get("/api/aprendiz/listarporid/:id", (req, res) => {
 
   let consulta = "SELECT * FROM aprendiz WHERE id = ?";
 
-  bd.query(consulta, id, (error, aprendiz) => {
+  bd.query(consulta, [id], (error, aprendiz) => {
     if (error) {
       res.send({
         status: "error",
@@ -127,7 +125,7 @@ aprendiz.delete("/api/aprendiz/borrarporid/:id", (req, res) => {
 
   let consulta = "DELETE FROM aprendiz WHERE id = ?";
 
-  bd.query(consulta, id, (error, aprendiz) => {
+  bd.query(consulta, [id], (error, aprendiz) => {
     if (error) {
       res.send({
         status: "error",
@@ -176,3 +174,5 @@ aprendiz.put("/api/aprendiz/editarporid/:id", (req, res) => {
     }
   });
 });
+
+module.exports = aprendiz;

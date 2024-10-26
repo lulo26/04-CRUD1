@@ -6,9 +6,19 @@ let apellido = document.querySelector("#apellido");
 let email = document.querySelector("#email");
 let password = document.querySelector("#password");
 
+//llamamos el metodo de creacion modal de bootstrap
+const frmCrearAprendiz = new bootstrap.Modal(
+  document.getElementById("frmCrearAprendiz")
+);
+let btnNuevo = document.querySelector("#btnNuevo");
+
+let api = "http://localhost:4100/api/aprendiz/";
+
+let accion = "";
+
 /*
 funcion necesaria para capturar el evento click por cada 
-fila de una tabla 
+fila de una tabla
 y obtener el id
 element : elemento html
 event : evento que desencadena (el evento en si mismo)
@@ -23,12 +33,25 @@ const on = (element, event, selector, handler) => {
   });
 };
 
-const frmCrearAprendiz = new bootstrap.Modal(
-  document.getElementById("frmCrearAprendiz")
-);
-let btnNuevo = document.querySelector("#btnNuevo");
+on(document, "click", ".btnBorrar", (e) => {
+  console.log("click en mi!");
+  let fila = e.target.parentNode.parentNode.parentNode;
+  let idform = fila.firstElementChild.innerText;
+  let respuesta = window.confirm(
+    `seguro que desea eliminar el registro con id: ${idform}`
+  );
+  console.log(idform);
 
-let api = "http://localhost:4100/api/aprendiz/";
+  if (respuesta) {
+    fetch(api + "borrarporid/" + idform, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        location.reload();
+      });
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   listartodos();
@@ -50,8 +73,15 @@ function listartodos() {
       contenido.innerHTML +=   `${aprendiz.nombre} ${aprendiz.apellido} <br>`
     }) */
       res.aprendiz.forEach((aprendiz) => {
-        let fila = `<tr> <td>${aprendiz.id}</td> <td>${aprendiz.nombre}</td> <td>${aprendiz.apellido}</td>  <td>${aprendiz.email}</td><td><button>Borrar</button class="btn btn-danger"></td><td><button class="btn btn-secondary">Editar</button></td></tr><br>`;
-        contenido.innerHTML = fila;
+        let fila = `<tr>
+        <td>${aprendiz.id}</td>
+        <td>${aprendiz.nombre}</td>
+        <td>${aprendiz.apellido}</td>
+        <td>${aprendiz.email}</td>
+        <td><button class="btnBorrar btn btn-danger"><i class="bi bi-trash"></i></button></td>
+        <td><button class="btnEditar btn btn-secondary"><i class="bi bi-pencil-square"></i></button></td>
+        </tr><br>`;
+        contenido.innerHTML += fila;
       });
     });
 }
@@ -79,6 +109,8 @@ frmAprendiz.addEventListener("submit", (e) => {
     .then((res) => res.json())
     .then((res) => {
       console.log(res.status, res.respuesta);
-      M.toast({ html: `${res.mensaje}` });
+      alert("exito");
+      frmCrearAprendiz.hide();
+      location.reload();
     });
 });
