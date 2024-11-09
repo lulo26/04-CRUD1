@@ -6,9 +6,10 @@ const mysql = require("mysql2"); /* principio de inmutabilidad */
 /* cadena de conexión o string de conexión */
 
 const cnx = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "sena",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER_NAME,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
 });
 
 /* connection.query("SELECT * FROM aprendiz", (err, results) => {

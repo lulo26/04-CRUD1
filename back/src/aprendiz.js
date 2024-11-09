@@ -1,6 +1,7 @@
 const express = require("express");
 const bd = require("./bd.js");
 const aprendiz = express();
+const bcrypt = require("bcryptjs");
 
 // rutas con consulta a la base de datos
 
@@ -90,7 +91,7 @@ aprendiz.post("/api/aprendiz/crear", (req, res) => {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     email: req.body.email,
-    password: req.body.password,
+    password: bcrypt.hashSync(req.body.password, 10),
   };
 
   // hacemos la consulta

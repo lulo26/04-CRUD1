@@ -58,6 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 btnNuevo.addEventListener("click", () => {
+  // limpiar los input
+  nombre.value = "";
+  apellido.value = "";
+  email.value = "";
+  accion = "crear";
   frmCrearAprendiz.show();
 });
 
@@ -65,13 +70,6 @@ function listartodos() {
   fetch(api + "listartodos")
     .then((res) => res.json())
     .then((res) => {
-      /*  for (let index = 0; index < res.aprendiz.length; index++) {
-     contenido.innerHTML +=   `${res.aprendiz[index].nombre} ${res.aprendiz[index].apellido} <br>`
-    }
- 
-    res.aprendiz.map((aprendiz)=>{
-      contenido.innerHTML +=   `${aprendiz.nombre} ${aprendiz.apellido} <br>`
-    }) */
       res.aprendiz.forEach((aprendiz) => {
         let fila = `<tr>
         <td>${aprendiz.id}</td>
@@ -88,29 +86,74 @@ function listartodos() {
 // envia datos por el formulario, el request lleva una payload que es la data de los formularios,
 // metodo post
 
+//metodo guardar cambiar para guardar o editar de la accion seleccionada
 frmAprendiz.addEventListener("submit", (e) => {
   // previene el evento por defecto de los formularios que hace submit automatico
   // evitamos enviar espacios vacios y controlamos el envio desde el boton enviar
   e.preventDefault();
-  fetch(api + "crear", {
-    method: "POST",
-    // configuramos que la cabecera, header de peticion lleve una configuracion: contiene un archivo json
-    headers: {
-      "Content-Type": "application/json",
-    },
-    //carga o payload del request o peticion, serializar un objeto JS  a JSON
-    body: JSON.stringify({
-      nombre: nombre.value,
-      apellido: apellido.value,
-      email: email.value,
-      password: password.value,
-    }),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res.status, res.respuesta);
-      alert("exito");
-      frmCrearAprendiz.hide();
-      location.reload();
-    });
+
+  // acción nuevo
+  if (accion === "crear") {
+    fetch(api + "crear", {
+      method: "POST",
+      // configuramos que la cabecera, header de peticion lleve una configuracion: contiene un archivo json
+      headers: {
+        "Content-Type": "application/json",
+      },
+      //carga o payload del request o peticion, serializar un objeto JS  a JSON
+      body: JSON.stringify({
+        nombre: nombre.value,
+        apellido: apellido.value,
+        email: email.value,
+        password: password.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        frmCrearAprendiz.hide();
+        location.reload();
+      });
+  }
+
+  //accion editar
+  if (accion === "editar") {
+    fetch(api + "crear", {
+      method: "PUT",
+      // configuramos que la cabecera, header de peticion lleve una configuracion: contiene un archivo json
+      headers: {
+        "Content-Type": "application/json",
+      },
+      //carga o payload del request o peticion, serializar un objeto JS  a JSON
+      body: JSON.stringify({
+        nombre: nombre.value,
+        apellido: apellido.value,
+        email: email.value,
+        password: password.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.status, res.respuesta);
+        alert("exito");
+        frmCrearAprendiz.hide();
+        location.reload();
+      });
+  }
+
+  frmCrearAprendiz.hide();
+});
+
+// metodo para llamar el formulario de edición y pasarle los campos a editar
+// definimos el id
+let idform = "";
+on(document, "click", ".btnEditar", (e) => {
+  console.log("click en mi!");
+  let fila = e.target.parentNode.parentNode.parentNode;
+  let idform = fila.children[0].innerText;
+  idform = id;
+  nombre.value = fila.children[1].innerText;
+  apellido.value = fila.children[2].innerText;
+  email.value = fila.children[3].innerText;
+  accion = "editar";
+  frmCrearAprendiz.show();
 });
