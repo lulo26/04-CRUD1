@@ -3,14 +3,47 @@ const bd = require("./bd.js");
 const aprendiz = express();
 const bcrypt = require("bcryptjs");
 
+// parametizacion de consultas con js
+// los parametros estos usan a sintaxis del url /:nombreparametro
+// sintaxis del url, sintaxis url /?nombre
+
+aprendiz.get("api/aprendiz/consulta/:id", (req, res) => {
+  let parametro = req.params;
+  let queries = req.query;
+
+  res.send({ queries: queries });
+});
+
 // rutas con consulta a la base de datos
 
 aprendiz.get("/api/aprendiz/listartodos", (req, res) => {
-  // hacemos la consulta
+  // recibir el  limite
 
-  let consulta = "SELECT * FROM aprendiz order by apellido asc";
+  let limite = req.query.limite;
+
+  // recibir la página
+
+  let pagina = req.query.pagina;
+
+  // calcular el offset
+
+  let offset = (pagina - 1) * limite;
+
+  // hacemos la consulta
+  let consulta = "SELECT COUNT(*) as TOTALAPRENDICES FROM aprendiz";
+  let consulta2 = "SELECT * FROM aprendiz limit ? offset ?";
   bd.query(consulta, (error, aprendiz) => {
-    if (error) {
+    bd.query(consulta2, [], limite, offset),
+      (error) => {
+        bd.query(consulta2, [limite, offset], (error, aprendiz) => {
+          res.send({
+            totalaprendiz: totalaprendiz,
+            aprendiz: aprendiz,
+          });
+        });
+      };
+
+    /*if (error) {
       res.send({
         status: "error",
         mensaje: "ocurrió un error en la consulta!",
@@ -22,7 +55,7 @@ aprendiz.get("/api/aprendiz/listartodos", (req, res) => {
         mensaje: "consulta exitosa",
         aprendiz: aprendiz,
       });
-    }
+    }*/
   });
 });
 

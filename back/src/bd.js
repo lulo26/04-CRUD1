@@ -28,7 +28,7 @@ cnx.connect((error) => {
 
 // autenticacion de un factor
 
-aprendiz.post("/users/login", (req, res) => {
+/* aprendiz.post("/users/login", (req, res) => {
   //datos de la peticion (body)
   let email = req.body.email;
   let password = req.body.password;
@@ -85,6 +85,6 @@ aprendiz.post("/users/login", (req, res) => {
       }
     }
   );
-});
+}); */
 
 module.exports = cnx;
