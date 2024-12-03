@@ -53,10 +53,6 @@ on(document, "click", ".btnBorrar", (e) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  listartodos();
-});
-
 btnNuevo.addEventListener("click", () => {
   // limpiar los input
   nombre.value = "";
@@ -157,3 +153,91 @@ on(document, "click", ".btnEditar", (e) => {
   accion = "editar";
   frmCrearAprendiz.show();
 });
+
+// paginación
+
+let btnPagina1 = document.querySelector("#btnPagina1");
+let btnPagina2 = document.querySelector("#btnPagina2");
+let btnPagina3 = document.querySelector("#btnPagina3");
+let li1 = document.querySelector("#li1");
+let li2 = document.querySelector("#li2");
+let li3 = document.querySelector("#li3");
+let btnAnterior = document.querySelector("#btnAnterior");
+let btnSiguiente = document.querySelector("#btnSiguiente");
+let limite = 15;
+let pagina = 1;
+btnAnterior.addEventListener("click", () => {
+  if (pagina > 1) {
+    pagina = pagina - 1;
+  } else {
+    pagina = 67;
+  }
+  contenido.innerHTML = "";
+  listartodos();
+});
+btnSiguiente.addEventListener("click", () => {
+  if (pagina < 67) {
+    pagina = pagina + 1;
+  } else {
+    pagina = 1;
+  }
+  contenido.innerHTML = "";
+  listartodos();
+});
+btnPagina1.addEventListener("click", () => {
+  pagina = parseInt(btnPagina1.innerText);
+  contenido.innerHTML = "";
+  listartodos();
+});
+btnPagina2.addEventListener("click", () => {
+  pagina = parseInt(btnPagina2.innerText);
+  contenido.innerHTML = "";
+  listartodos();
+});
+btnPagina3.addEventListener("click", () => {
+  pagina = parseInt(btnPagina3.innerText);
+  contenido.innerHTML = "";
+  listartodos();
+});
+function listartodos() {
+  fetch(api + "listartodos" + "?limite=" + limite + "&pagina=" + pagina)
+    .then((res) => res.json())
+    .then((res) => {
+      res.aprendiz.forEach((aprendiz) => {
+        let fila = `<tr> 
+        <td>${aprendiz.id}</td> 
+        <td>${aprendiz.nombre}</td> 
+        <td>${aprendiz.apellido}</td> 
+        <td>${aprendiz.email}</td>
+       <td><button class="btnBorrar btn btn-danger"><i class="bi bi-trash"></i></button></td>
+       <td><button class="btnEditar btn btn-secondary"><i class="bi bi-pencil-square"></i></button></td>
+
+      </tr><br>`;
+        contenido.innerHTML += fila;
+      });
+    });
+  if (pagina == 1) {
+    btnPagina1.innerText = 1;
+    btnPagina2.innerText = 2;
+    btnPagina3.innerText = 3;
+  } else if (pagina == 67) {
+    btnPagina1.innerText = 65;
+    btnPagina2.innerText = 66;
+    btnPagina3.innerText = 67;
+  } else {
+    btnPagina1.innerText = pagina - 1;
+    btnPagina2.innerText = pagina;
+    btnPagina3.innerText = pagina + 1;
+  }
+  li1.setAttribute("class", "page-item");
+  li2.setAttribute("class", "page-item");
+  li3.setAttribute("class", "page-item");
+  if (btnPagina1.innerText == pagina){
+    li1.setAttribute("class", "page-item active");
+  } else if (btnPagina2.innerText == pagina){
+    li2.setAttribute("class", "page-item active");
+  } else if (btnPagina3.innerText == pagina){
+    li3.setAttribute("class", "page-item active");
+  }
+}
+listartodos();
